@@ -2002,3 +2002,105 @@ main {
     }
 
 }
+
+/* =========================================
+   Meteor Escape
+========================================= */
+
+.meteor-cover {
+    background:
+        radial-gradient(
+            circle at 75% 30%,
+            rgba(255, 110, 55, 0.16),
+            transparent 24%
+        ),
+        linear-gradient(
+            180deg,
+            #080d1d,
+            #02040a
+        );
+}
+
+.meteor-stars {
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        radial-gradient(
+            rgba(255, 255, 255, 0.9) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        28px 28px;
+
+    opacity: 0.65;
+}
+
+.meteor-planet {
+    position: absolute;
+
+    right: -35px;
+    bottom: -55px;
+
+    width: 160px;
+    height: 160px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #4b6dff,
+            #263f98 55%,
+            #111a4e
+        );
+
+    box-shadow:
+        0 0 32px
+        rgba(68, 100, 255, 0.35);
+}
+
+.meteor-ship {
+    position: absolute;
+
+    left: 70px;
+    bottom: 55px;
+
+    font-size: 58px;
+
+    transform:
+        rotate(-12deg);
+
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(80, 220, 255, 0.45)
+        );
+}
+
+.meteor-rock {
+    position: absolute;
+
+    right: 95px;
+    top: 45px;
+
+    font-size: 58px;
+
+    transform:
+        rotate(-20deg);
+
+    filter:
+        drop-shadow(
+            0 0 14px
+            rgba(255, 120, 60, 0.55)
+        );
+}
+
+.status.released {
+    color:
+        #6ff0a7;
+
+    background:
+        rgba(45, 190, 105, 0.13);
+}
