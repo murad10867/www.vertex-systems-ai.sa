@@ -2297,3 +2297,101 @@ main {
 
     font-size: 42px;
 }
+
+
+/* =========================================
+   Space Shooter
+========================================= */
+
+.shooter-cover {
+    background:
+        radial-gradient(circle at 50% 65%, rgba(45, 220, 240, 0.13), transparent 34%),
+        linear-gradient(180deg, #071023, #02040a);
+}
+
+.shooter-stars {
+    position: absolute;
+    inset: 0;
+    opacity: 0.6;
+    background-image:
+        radial-gradient(rgba(255,255,255,.9) 1px, transparent 1px);
+    background-size: 25px 25px;
+}
+
+.shooter-ship {
+    position: absolute;
+    left: 62px;
+    bottom: 45px;
+    font-size: 58px;
+    transform: rotate(-8deg);
+    filter: drop-shadow(0 0 12px rgba(70,220,255,.6));
+}
+
+.shooter-enemy {
+    position: absolute;
+    right: 72px;
+    top: 42px;
+    font-size: 52px;
+    filter: drop-shadow(0 0 12px rgba(255,70,110,.5));
+}
+
+.shooter-laser {
+    position: absolute;
+    left: 124px;
+    bottom: 105px;
+    width: 5px;
+    height: 62px;
+    border-radius: 6px;
+    background: #70f6ff;
+    box-shadow: 0 0 14px #70f6ff;
+    transform: rotate(-14deg);
+}
+
+
+/* =========================================
+   Brain Game
+========================================= */
+
+.brain-cover {
+    background:
+        radial-gradient(circle at 50% 48%, rgba(139,92,255,.30), transparent 34%),
+        linear-gradient(145deg, #120a2b, #070512);
+}
+
+.brain-glow {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(83,225,242,.16), transparent 66%);
+}
+
+.brain-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -55%);
+    font-size: 82px;
+    filter: drop-shadow(0 0 18px rgba(154,105,255,.55));
+}
+
+.brain-symbol {
+    position: absolute;
+    color: #b9a7ff;
+    font-size: 34px;
+    font-weight: 900;
+    text-shadow: 0 0 12px rgba(139,92,255,.6);
+}
+
+.brain-symbol-one {
+    left: 70px;
+    top: 48px;
+}
+
+.brain-symbol-two {
+    right: 72px;
+    bottom: 58px;
+}
