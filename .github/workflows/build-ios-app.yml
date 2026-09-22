@@ -1,0 +1,54 @@
+name: Build Vertex iOS App
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "mobile-app/**"
+      - ".github/workflows/build-ios-app.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  ios:
+    name: iOS Simulator Build
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: mobile-app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install packages
+        run: npm install
+
+      - name: Create iOS project
+        run: npx cap add ios
+
+      - name: Sync Capacitor
+        run: npx cap sync ios
+
+      - name: Build iOS app without signing
+        run: |
+          xcodebuild             -workspace ios/App/App.xcworkspace             -scheme App             -configuration Release             -sdk iphonesimulator             -derivedDataPath ios/build             CODE_SIGNING_ALLOWED=NO             build
+
+      - name: Package simulator app
+        run: |
+          mkdir -p ios-output
+          ditto -c -k --sequesterRsrc --keepParent             ios/build/Build/Products/Release-iphonesimulator/App.app             ios-output/Vertex-Systems-AI-iOS-Simulator.zip
+
+      - name: Upload iOS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vertex-Systems-AI-iOS-Simulator
+          path: mobile-app/ios-output/Vertex-Systems-AI-iOS-Simulator.zip
+          if-no-files-found: error
+          retention-days: 30
