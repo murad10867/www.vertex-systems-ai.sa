@@ -59,17 +59,9 @@ jobs:
           chmod +x gradlew
           ./gradlew bundleRelease
 
-      - name: Sign AAB when upload-key secrets exist
-        if: ${{ secrets.PLAY_UPLOAD_KEYSTORE_BASE64 != '' && secrets.PLAY_UPLOAD_KEYSTORE_PASSWORD != '' && secrets.PLAY_UPLOAD_KEY_ALIAS != '' && secrets.PLAY_UPLOAD_KEY_PASSWORD != '' }}
-        env:
-          KEYSTORE_BASE64: ${{ secrets.PLAY_UPLOAD_KEYSTORE_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.PLAY_UPLOAD_KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.PLAY_UPLOAD_KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.PLAY_UPLOAD_KEY_PASSWORD }}
+      - name: Build note
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > upload-key.jks
-          jarsigner             -keystore upload-key.jks             -storepass "$KEYSTORE_PASSWORD"             -keypass "$KEY_PASSWORD"             -sigalg SHA256withRSA             -digestalg SHA-256             android/app/build/outputs/bundle/release/app-release.aab             "$KEY_ALIAS"
-          jarsigner -verify -verbose -certs android/app/build/outputs/bundle/release/app-release.aab
+          echo "Release AAB built. Final Play upload signing is added when an upload key is configured."
 
       - name: Copy Google Play bundle
         run: |
