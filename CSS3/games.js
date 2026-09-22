@@ -253,12 +253,12 @@ openMinecraftBtn.addEventListener(
 
         saveLastProject(
             "Minecraft Rell X1000",
-            "minecraft.html"
+            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
         );
 
 
         openPage(
-            "minecraft.html"
+            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
         );
 
     }
@@ -278,12 +278,12 @@ minecraftDashboardBtn.addEventListener(
 
         saveLastProject(
             "Minecraft Rell X1000",
-            "minecraft.html"
+            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
         );
 
 
         openPage(
-            "minecraft.html"
+            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
         );
 
     }
@@ -679,12 +679,12 @@ document.addEventListener(
 
             saveLastProject(
                 "Minecraft Rell X1000",
-                "minecraft.html"
+                "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
             );
 
 
             openPage(
-                "minecraft.html"
+                "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
             );
 
         }
