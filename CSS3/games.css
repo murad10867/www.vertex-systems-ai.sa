@@ -2442,3 +2442,73 @@ main {
     letter-spacing:1px;
     text-shadow:0 3px 14px #000;
 }
+
+
+/* Vertex Puzzle Rooms */
+.puzzle-rooms-cover{
+    position:relative;
+    min-height:180px;
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    background:
+      linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px),
+      radial-gradient(circle at 50% 30%,rgba(89,139,255,.45),transparent 38%),
+      linear-gradient(145deg,#11192b,#080d18);
+    background-size:28px 28px,28px 28px,auto,auto;
+}
+.puzzle-rooms-cover::before,
+.puzzle-rooms-cover::after{
+    content:"";
+    position:absolute;
+    width:54px;
+    height:54px;
+    border-radius:10px;
+    background:#d68a3d;
+    box-shadow:inset -10px -10px rgba(0,0,0,.18);
+}
+.puzzle-rooms-cover::before{left:22%;top:28%}
+.puzzle-rooms-cover::after{right:20%;bottom:27%;background:#4ed7ff}
+.puzzle-icon{
+    position:relative;
+    z-index:2;
+    font-size:70px;
+    filter:drop-shadow(0 14px 20px rgba(0,0,0,.45));
+}
+
+/* DON'T LOOK BACK */
+.horror-cover{
+    position:relative;
+    min-height:180px;
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 30%,rgba(125,0,0,.45),transparent 32%),
+      linear-gradient(160deg,#111,#020202 70%);
+}
+.horror-cover::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(90deg,transparent 0 55px,rgba(255,255,255,.025) 55px 57px);
+}
+.horror-eye{
+    position:relative;
+    z-index:2;
+    font-size:70px;
+    filter:grayscale(.5) drop-shadow(0 0 22px rgba(255,0,0,.45));
+}
+.puzzle-rooms-cover .cover-game-name,
+.horror-cover .cover-game-name{
+    position:absolute;
+    z-index:3;
+    left:0;
+    right:0;
+    bottom:14px;
+    text-align:center;
+    font-weight:900;
+    letter-spacing:.8px;
+    text-shadow:0 3px 14px #000;
+}
