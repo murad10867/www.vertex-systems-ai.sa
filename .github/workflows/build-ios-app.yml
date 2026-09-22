@@ -36,14 +36,25 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync ios
 
+      - name: Inspect iOS project
+        run: |
+          find ios/App -maxdepth 2 -type d -print
+          find ios/App -maxdepth 2 -type f -print | head -100
+
       - name: Build iOS app without signing
         run: |
-          xcodebuild             -workspace ios/App/App.xcworkspace             -scheme App             -configuration Release             -sdk iphonesimulator             -derivedDataPath ios/build             CODE_SIGNING_ALLOWED=NO             build
+          if [ -d "ios/App/App.xcworkspace" ]; then
+            xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build
+          else
+            xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build
+          fi
 
       - name: Package simulator app
         run: |
           mkdir -p ios-output
-          ditto -c -k --sequesterRsrc --keepParent             ios/build/Build/Products/Release-iphonesimulator/App.app             ios-output/Vertex-Systems-AI-iOS-Simulator.zip
+          APP_PATH=$(find ios/build/Build/Products -type d -name "App.app" | head -1)
+          test -n "$APP_PATH"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" ios-output/Vertex-Systems-AI-iOS-Simulator.zip
 
       - name: Upload iOS build
         uses: actions/upload-artifact@v4
