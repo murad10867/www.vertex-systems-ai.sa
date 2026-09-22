@@ -1,0 +1,85 @@
+name: Build Google Play AAB
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "mobile-app/**"
+      - ".github/workflows/build-google-play-aab.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  android-aab:
+    name: Google Play AAB
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile-app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Setup Android 16 SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Install packages
+        run: npm install
+
+      - name: Create Android project
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Force Google Play target API 36
+        run: |
+          sed -i 's/compileSdkVersion = [0-9]\+/compileSdkVersion = 36/' android/variables.gradle
+          sed -i 's/targetSdkVersion = [0-9]\+/targetSdkVersion = 36/' android/variables.gradle
+          cat android/variables.gradle
+
+      - name: Build release AAB
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew bundleRelease
+
+      - name: Sign AAB when upload-key secrets exist
+        if: ${{ secrets.PLAY_UPLOAD_KEYSTORE_BASE64 != '' && secrets.PLAY_UPLOAD_KEYSTORE_PASSWORD != '' && secrets.PLAY_UPLOAD_KEY_ALIAS != '' && secrets.PLAY_UPLOAD_KEY_PASSWORD != '' }}
+        env:
+          KEYSTORE_BASE64: ${{ secrets.PLAY_UPLOAD_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.PLAY_UPLOAD_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.PLAY_UPLOAD_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.PLAY_UPLOAD_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > upload-key.jks
+          jarsigner             -keystore upload-key.jks             -storepass "$KEYSTORE_PASSWORD"             -keypass "$KEY_PASSWORD"             -sigalg SHA256withRSA             -digestalg SHA-256             android/app/build/outputs/bundle/release/app-release.aab             "$KEY_ALIAS"
+          jarsigner -verify -verbose -certs android/app/build/outputs/bundle/release/app-release.aab
+
+      - name: Copy Google Play bundle
+        run: |
+          mkdir -p play-output
+          cp android/app/build/outputs/bundle/release/app-release.aab play-output/Vertex-Systems-AI-v1.0.0.aab
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vertex-Systems-AI-Google-Play-AAB
+          path: mobile-app/play-output/Vertex-Systems-AI-v1.0.0.aab
+          if-no-files-found: error
+          retention-days: 30
