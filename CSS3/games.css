@@ -1265,6 +1265,102 @@ main {
 
 
 /* =========================================
+   Tank Simulator
+========================================= */
+
+.tank-cover {
+    background:
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,.10), transparent 28%),
+        linear-gradient(180deg, #6f7a63 0 56%, #4a503f 56% 100%);
+}
+
+.tank-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 0 1px,
+            transparent 1px 34px
+        );
+}
+
+.tank-ground {
+    position: absolute;
+    left: -8%;
+    right: -8%;
+    bottom: -28px;
+    height: 105px;
+    border-radius: 50%;
+    background:
+        radial-gradient(ellipse at center, #5d654f 0 48%, #3f4538 49% 70%, transparent 71%);
+    transform: perspective(150px) rotateX(58deg);
+}
+
+.tank-machine {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: 180px;
+    height: 105px;
+    transform: translate(-50%, -50%);
+}
+
+.tank-body-shape {
+    position: absolute;
+    left: 26px;
+    right: 26px;
+    bottom: 23px;
+    height: 48px;
+    border-radius: 10px 10px 6px 6px;
+    background: linear-gradient(180deg, #687b55, #39452f);
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: inset 0 -10px 15px rgba(0,0,0,.22);
+}
+
+.tank-turret-shape {
+    position: absolute;
+    left: 58px;
+    top: 19px;
+    width: 65px;
+    height: 43px;
+    border-radius: 50% 50% 35% 35%;
+    background: linear-gradient(180deg, #7a8f63, #47583b);
+    border: 1px solid rgba(255,255,255,.13);
+}
+
+.tank-barrel-shape {
+    position: absolute;
+    left: 111px;
+    top: 35px;
+    width: 78px;
+    height: 9px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #66705f, #2e342b);
+    transform: rotate(-8deg);
+    transform-origin: left center;
+}
+
+.tank-track {
+    position: absolute;
+    bottom: 12px;
+    width: 68px;
+    height: 20px;
+    border-radius: 13px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #111 0 9px,
+            #343a31 10px 15px
+        );
+    border: 2px solid #111;
+}
+
+.tank-track-left { left: 16px; }
+.tank-track-right { right: 16px; }
+
+/* =========================================
    Space cover
 ========================================= */
 
