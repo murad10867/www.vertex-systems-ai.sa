@@ -1361,6 +1361,50 @@ main {
 .tank-track-right { right: 16px; }
 
 /* =========================================
+   Zombie Simulator
+========================================= */
+
+.zombie-cover {
+    background:
+        radial-gradient(circle at 78% 24%, rgba(175,255,175,.11), transparent 22%),
+        linear-gradient(180deg, #101914 0 56%, #060a07 100%);
+}
+
+.zombie-moon {
+    position: absolute;
+    top: 28px;
+    right: 34px;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #b7d2ad;
+    box-shadow: 0 0 30px rgba(154,220,146,.35);
+}
+
+.zombie-icon {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    top: 53%;
+    transform: translate(-50%,-50%);
+    font-size: 82px;
+    filter: drop-shadow(0 15px 18px rgba(0,0,0,.5));
+}
+
+.zombie-fog {
+    position: absolute;
+    left: -10%;
+    width: 120%;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(150,175,150,.12);
+    filter: blur(9px);
+}
+
+.zombie-fog-one { bottom: 48px; }
+.zombie-fog-two { bottom: 78px; opacity: .65; }
+
+/* =========================================
    Space cover
 ========================================= */
 
