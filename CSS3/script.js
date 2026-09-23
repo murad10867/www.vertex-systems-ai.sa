@@ -150,12 +150,12 @@ const systemsData = {
             "Vertex Games",
 
         description:
-            "مركز تطوير الألعاب ويضم Minecraft Rell X1000 وVertex Racing: Nitro Rush ومشاريع ألعاب أخرى.",
+            "مركز تطوير الألعاب ويضم Minecraft Rell X1000 وVertex Racing: Nitro Rush وTank Simulator ومشاريع ألعاب أخرى.",
 
         tags: [
             "Godot",
             "GDScript",
-            "12 Games"
+            "13 Games"
         ]
 
     },
