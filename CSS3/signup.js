@@ -234,14 +234,10 @@ signupForm?.addEventListener("submit", async function (event) {
         if (!data.user) throw new Error("No user returned from Supabase");
 
         if (data.session) {
-            showFormMessage("✅ تم إنشاء الحساب وتسجيل الدخول بنجاح.", "success");
-
-            setTimeout(function () {
-                const destination = getDestinationPage();
-                localStorage.removeItem("vertexRequestedSystem");
-                localStorage.removeItem("vertexReturnPage");
-                window.location.href = destination;
-            }, 700);
+            const destination = getDestinationPage();
+            localStorage.removeItem("vertexRequestedSystem");
+            localStorage.removeItem("vertexReturnPage");
+            window.location.replace(destination);
             return;
         }
 
