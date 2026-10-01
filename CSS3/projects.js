@@ -96,15 +96,10 @@ spaceBtn.addEventListener(
 
     }
 );
-learningBtn.addEventListener(
-    "click",
-    function () {
-
-        window.location.href =
-            "https://murad10867.github.io/vertex-learning/";
-
-    }
-);
+const learningBtn =
+    document.getElementById("learningBtn");
+window.location.href =
+    "https://murad10867.github.io/vertex-learning/";
 
 
 // العودة للوحة التحكم
