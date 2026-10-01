@@ -257,14 +257,10 @@ loginForm?.addEventListener("submit", async function (event) {
             }
         }
 
-        showFormMessage("✅ تم تسجيل الدخول بنجاح عبر Supabase.", "success");
-
-        setTimeout(function () {
-            const destination = getDestinationPage();
-            localStorage.removeItem("vertexRequestedSystem");
-            localStorage.removeItem("vertexReturnPage");
-            window.location.href = destination;
-        }, 450);
+        const destination = getDestinationPage();
+        localStorage.removeItem("vertexRequestedSystem");
+        localStorage.removeItem("vertexReturnPage");
+        window.location.replace(destination);
     } catch (error) {
         console.error("Vertex login error:", error);
         showFormMessage("❌ " + getFriendlyAuthError(error), "error");
@@ -300,9 +296,10 @@ async function checkExistingSession() {
         }
 
         currentSupabaseUser = session.user;
-        if (sessionUserName) sessionUserName.textContent = getDisplayName(session.user);
-        existingSession?.classList.add("visible");
-        if (loginForm) loginForm.style.display = "none";
+        const destination = getDestinationPage();
+        localStorage.removeItem("vertexRequestedSystem");
+        localStorage.removeItem("vertexReturnPage");
+        window.location.replace(destination);
     } catch (error) {
         console.error("Session check error:", error);
         existingSession?.classList.remove("visible");
