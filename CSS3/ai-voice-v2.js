@@ -1,6 +1,6 @@
 // ==========================================
 // Vertex AI Voice v2
-// Plan-aware browser voice selection and sentence playback
+// Plan-aware voice choices with continuous speech playback
 // - Prefers high-quality Microsoft Edge online voices
 // - Saudi Arabic first (ar-SA)
 // - Waits for voices to become available
@@ -29,6 +29,8 @@
     let previewing = false;
     let speaking = false;
     let activeUtterance = null;
+    let lastSpeechText = "";
+    let replayBtn;
     let previousAssistant = null;
     let turnToken = 0;
     let lastFocus = null;
@@ -197,7 +199,8 @@
         styleSelect.value = plus ? preferences.style : "natural";
         speedInput.value = config === profiles.free ? 1 : preferences.speed;
         speedLabel.textContent = `${Number(speedInput.value).toFixed(2)}×`;
-        previewBtn.disabled = !canSpeak || waitingForReply;
+        previewBtn.disabled = !canSpeak || (waitingForReply && !previewing);
+        if (replayBtn) replayBtn.disabled = !canSpeak || !lastSpeechText || (waitingForReply && !speaking);
         const language = preferences.language === "ar" ? "العربية" : "الإنجليزية";
         const count = voices.length;
         const details = config === profiles.free ? "خيارات أساسية" : config === profiles.pro
@@ -215,31 +218,6 @@
             pitch: style === "calm" ? 0.97 : style === "bright" ? 1.06 : 1,
             pause: config.pause + (style === "calm" ? 80 : 0)
         };
-    }
-
-    // Small sentences keep long replies reliable and use the matching language voice.
-    function speechChunks(text) {
-        const chunks = [];
-        const sentences = text.match(/[^.!?؟؛\n]+[.!?؟؛]?/g) || [text];
-        sentences.forEach(sentence => {
-            const parts = sentence.match(/[\u0600-\u06FF\s\d.,!?؟؛:]+|[^\u0600-\u06FF]+/g) || [sentence];
-            parts.forEach(part => {
-                const words = part.trim().split(/\s+/);
-                let chunk = "";
-                words.forEach(word => {
-                    // Split unbroken strings too: never send oversized utterances.
-                    for (let i = 0; i < word.length; i += 180) {
-                        const piece = word.slice(i, i + 180);
-                        if (chunk && chunk.length + piece.length + 1 > 180) {
-                            chunks.push(chunk); chunk = "";
-                        }
-                        chunk = (chunk + " " + piece).trim();
-                    }
-                });
-                if (/[\p{L}\p{N}]/u.test(chunk)) chunks.push(chunk);
-            });
-        });
-        return chunks;
     }
 
     function cleanForSpeech(text) {
@@ -287,8 +265,9 @@
         speechToken++;
         speaking = false;
         previewing = false;
+        const hadAudio = activeUtterance || (canSpeak && (window.speechSynthesis.speaking || window.speechSynthesis.pending));
         activeUtterance = null;
-        if (canSpeak) window.speechSynthesis.cancel();
+        if (hadAudio && canSpeak) window.speechSynthesis.cancel();
         if (previewBtn) previewBtn.textContent = "▶ جرّب الصوت";
     }
 
@@ -296,51 +275,50 @@
         const cleaned = cleanForSpeech(text);
         if (!cleaned || !canSpeak || !voiceMode) {
             waitingForReply = false;
+            refreshVoiceSettings();
             if (!canSpeak) setState(null, "قراءة الصوت غير مدعومة في هذا المتصفح");
             scheduleListening(350);
             return;
         }
+        stopListening();
         cancelSpeech();
         previewing = preview;
         speaking = true;
-        stopListening();
         const token = speechToken;
-        const chunks = speechChunks(cleaned);
         const settings = speechSettings();
+        // Use the original single-utterance path so phrases are spoken continuously.
+        const utterance = new SpeechSynthesisUtterance(cleaned);
+        const voice = pickVoice(cleaned);
+        if (voice) utterance.voice = voice;
+        utterance.lang = voice?.lang || (/[\u0600-\u06FF]/.test(cleaned) ? "ar-SA" : "en-US");
+        utterance.rate = settings.rate;
+        utterance.pitch = settings.pitch;
+        utterance.volume = 1;
+        activeUtterance = utterance;
+        if (!preview) lastSpeechText = cleaned;
         if (preview) previewBtn.textContent = "■ إيقاف التجربة";
-        setState("speaking", preview ? "تجربة الصوت..." : "Vertex AI يتكلم...");
+        refreshVoiceSettings();
+        setState(null, "جارٍ تشغيل الصوت...");
         transcriptEl.textContent = cleaned.length > 260 ? cleaned.slice(0,260) + "…" : cleaned;
-
+        utterance.onstart = () => {
+            if (token !== speechToken || !voiceMode) return;
+            setState("speaking", preview ? "تجربة الصوت..." : "Vertex AI يتكلم...");
+        };
         function finish(error) {
             if (token !== speechToken) return;
             speaking = false; previewing = false; activeUtterance = null;
             waitingForReply = false;
             previewBtn.textContent = "▶ جرّب الصوت";
             refreshVoiceSettings();
-            setState(null, error ? "تعذر تشغيل الصوت — جرّب صوتًا آخر" : muted ? "الميكروفون متوقف" : "أسمعك...");
+            setState(null, error ? "تعذر تشغيل الصوت — اضغط سماع الرد أو جرّب صوتًا آخر" : muted ? "الميكروفون متوقف" : "أسمعك...");
             scheduleListening(error ? 700 : 420);
         }
-        function play(index) {
-            if (token !== speechToken || !voiceMode) return;
-            if (index >= chunks.length) { finish(); return; }
-            const chunk = chunks[index];
-            const utterance = new SpeechSynthesisUtterance(chunk);
-            const voice = pickVoice(chunk);
-            if (voice) utterance.voice = voice;
-            utterance.lang = voice?.lang || (/[\u0600-\u06FF]/.test(chunk) ? "ar-SA" : "en-US");
-            utterance.rate = settings.rate;
-            utterance.pitch = settings.pitch;
-            utterance.volume = 1;
-            // Retain the object until end/error (required by some browser engines).
-            activeUtterance = utterance;
-            utterance.onend = () => {
-                if (token !== speechToken) return;
-                setTimeout(() => play(index + 1), settings.pause);
-            };
-            utterance.onerror = () => finish(true);
-            try { window.speechSynthesis.speak(utterance); } catch (_) { finish(true); }
-        }
-        play(0);
+        utterance.onend = () => finish();
+        utterance.onerror = () => finish(true);
+        try {
+            if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+            window.speechSynthesis.speak(utterance);
+        } catch (_) { finish(true); }
     }
 
     function previewVoice() {
@@ -564,9 +542,10 @@
                 </div>
                 <div class="vertex-voice-actions">
                     <button id="vertexVoiceV2MicBtn" class="vertex-voice-action voice-active" type="button" title="تشغيل أو إيقاف المايك">🎙️</button>
+                    <button id="vertexVoiceReplay" class="vertex-voice-action" type="button" title="سماع آخر رد" aria-label="سماع آخر رد" disabled>🔊</button>
                     <button id="vertexVoiceV2CloseBtn" class="vertex-voice-action voice-close" type="button" title="إنهاء المحادثة الصوتية">✕</button>
                 </div>
-                <div class="vertex-voice-hint">الأصوات وجودتها تعتمد على جهازك ومتصفحك. نحفظ اختيارًا مستقلًا للعربية والإنجليزية ونبدّل بينهما حسب النص. لا يلزم تشغيل الميكروفون لتجربة الصوت.</div>
+                <div class="vertex-voice-hint">الأصوات وجودتها تعتمد على جهازك ومتصفحك. نحفظ اختيارًا مستقلًا للعربية والإنجليزية ويُستخدم الصوت المناسب للغة الرد. لا يلزم تشغيل الميكروفون لتجربة الصوت.</div>
             </section>`;
         document.body.appendChild(overlay);
 
@@ -616,6 +595,10 @@
         speedLabel = document.getElementById("vertexVoiceSpeedLabel");
         qualityEl = document.getElementById("vertexVoiceQuality");
         previewBtn = document.getElementById("vertexVoicePreview");
+        replayBtn = document.getElementById("vertexVoiceReplay");
+        replayBtn.addEventListener("click", () => {
+            if (!waitingForReply || speaking) speak(lastSpeechText);
+        });
         voiceSelect.addEventListener("change", () => {
             preferences.voices[preferences.language] = voiceSelect.value;
             savePreferences();
