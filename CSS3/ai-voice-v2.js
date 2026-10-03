@@ -30,7 +30,7 @@
     let speaking = false;
     let activeUtterance = null;
     let lastSpeechText = "";
-    let replayBtn;
+    let replayBtn, previewStatus;
     let previousAssistant = null;
     let turnToken = 0;
     let lastFocus = null;
@@ -115,6 +115,8 @@
         .vertex-voice-action.voice-active { background:#1d4ed8; border-color:rgba(96,165,250,.55); box-shadow:0 10px 34px rgba(37,99,235,.30); }
         .vertex-voice-action.voice-close { background:#24141a; }
         .vertex-voice-hint { margin-top:22px; font-size:12px; color:#94a3b8; max-width:440px; line-height:1.7; }
+        .vertex-voice-settings-card { grid-column:1 / -1; }
+        .vertex-voice-preview-status { margin:0; min-height:1.6em; color:#94a3b8; font-size:13px; }
         .vertex-voice-settings { width:100%; margin:14px 0 18px; display:grid; gap:12px; text-align:right; }
         .vertex-voice-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
         .vertex-voice-settings label { display:grid; gap:6px; color:#cbd5e1; font-size:13px; min-width:0; }
@@ -263,8 +265,10 @@
 
     function cancelSpeech() {
         speechToken++;
+        const wasPreview = previewing;
         speaking = false;
         previewing = false;
+        if (wasPreview && previewStatus) previewStatus.textContent = "تم إيقاف تجربة الصوت";
         const hadAudio = activeUtterance || (canSpeak && (window.speechSynthesis.speaking || window.speechSynthesis.pending));
         activeUtterance = null;
         if (hadAudio && canSpeak) window.speechSynthesis.cancel();
@@ -273,7 +277,7 @@
 
     function speak(text, preview = false) {
         const cleaned = cleanForSpeech(text);
-        if (!cleaned || !canSpeak || !voiceMode) {
+        if (!cleaned || !canSpeak || (!voiceMode && !preview)) {
             waitingForReply = false;
             refreshVoiceSettings();
             if (!canSpeak) setState(null, "قراءة الصوت غير مدعومة في هذا المتصفح");
@@ -296,12 +300,16 @@
         utterance.volume = 1;
         activeUtterance = utterance;
         if (!preview) lastSpeechText = cleaned;
-        if (preview) previewBtn.textContent = "■ إيقاف التجربة";
+        if (preview) {
+            previewBtn.textContent = "■ إيقاف التجربة";
+            previewStatus.textContent = "جارٍ تشغيل تجربة الصوت...";
+        }
         refreshVoiceSettings();
         setState(null, "جارٍ تشغيل الصوت...");
         transcriptEl.textContent = cleaned.length > 260 ? cleaned.slice(0,260) + "…" : cleaned;
         utterance.onstart = () => {
-            if (token !== speechToken || !voiceMode) return;
+            if (token !== speechToken || (!voiceMode && !preview)) return;
+            if (preview) previewStatus.textContent = "تجربة الصوت...";
             setState("speaking", preview ? "تجربة الصوت..." : "Vertex AI يتكلم...");
         };
         function finish(error) {
@@ -309,6 +317,7 @@
             speaking = false; previewing = false; activeUtterance = null;
             waitingForReply = false;
             previewBtn.textContent = "▶ جرّب الصوت";
+            if (preview) previewStatus.textContent = error ? "تعذر تشغيل التجربة — جرّب صوتًا آخر" : "انتهت تجربة الصوت";
             refreshVoiceSettings();
             setState(null, error ? "تعذر تشغيل الصوت — اضغط سماع الرد أو جرّب صوتًا آخر" : muted ? "الميكروفون متوقف" : "أسمعك...");
             scheduleListening(error ? 700 : 420);
@@ -427,6 +436,7 @@
     }
 
     function openVoiceMode() {
+        if (previewing) cancelSpeech();
         voiceMode = true; muted = false; waitingForReply = false; finalTranscript = "";
         lastFocus = document.activeElement;
         previousOverflow = document.body.style.overflow;
@@ -530,22 +540,12 @@
                 <h2 class="vertex-voice-title">المحادثة الصوتية</h2>
                 <p id="vertexVoiceV2Status" class="vertex-voice-status">جاهز</p>
                 <div id="vertexVoiceV2Transcript" class="vertex-voice-transcript">تكلم مع Vertex AI مباشرة</div>
-                <div class="vertex-voice-settings">
-                    <p id="vertexVoiceQuality" class="vertex-voice-quality" aria-live="polite"></p>
-                    <div class="vertex-voice-fields">
-                        <label>لغة اختيار الصوت<select id="vertexVoiceLanguage"><option value="ar">العربية</option><option value="en">English</option></select></label>
-                        <label>النبرة · Plus<select id="vertexVoiceStyle"><option value="natural">طبيعي</option><option value="calm">هادئ</option><option value="bright">حيوي</option></select></label>
-                    </div>
-                    <label>اختر الصوت<select id="vertexVoiceChoice"></select></label>
-                    <label>سرعة القراءة · Pro / Plus <output id="vertexVoiceSpeedLabel">1.00×</output><input id="vertexVoiceSpeed" type="range" min="0.8" max="1.2" step="0.05" value="1"></label>
-                    <button id="vertexVoicePreview" class="vertex-voice-preview" type="button">▶ جرّب الصوت</button>
-                </div>
                 <div class="vertex-voice-actions">
                     <button id="vertexVoiceV2MicBtn" class="vertex-voice-action voice-active" type="button" title="تشغيل أو إيقاف المايك">🎙️</button>
                     <button id="vertexVoiceReplay" class="vertex-voice-action" type="button" title="سماع آخر رد" aria-label="سماع آخر رد" disabled>🔊</button>
                     <button id="vertexVoiceV2CloseBtn" class="vertex-voice-action voice-close" type="button" title="إنهاء المحادثة الصوتية">✕</button>
                 </div>
-                <div class="vertex-voice-hint">الأصوات وجودتها تعتمد على جهازك ومتصفحك. نحفظ اختيارًا مستقلًا للعربية والإنجليزية ويُستخدم الصوت المناسب للغة الرد. لا يلزم تشغيل الميكروفون لتجربة الصوت.</div>
+                <div class="vertex-voice-hint">لتغيير الصوت أو السرعة أو النبرة، افتح إعدادات Vertex AI.</div>
             </section>`;
         document.body.appendChild(overlay);
 
@@ -595,6 +595,7 @@
         speedLabel = document.getElementById("vertexVoiceSpeedLabel");
         qualityEl = document.getElementById("vertexVoiceQuality");
         previewBtn = document.getElementById("vertexVoicePreview");
+        previewStatus = document.getElementById("vertexVoicePreviewStatus");
         replayBtn = document.getElementById("vertexVoiceReplay");
         replayBtn.addEventListener("click", () => {
             if (!waitingForReply || speaking) speak(lastSpeechText);
@@ -623,7 +624,10 @@
         closeBtn?.addEventListener("click", closeVoiceMode);
         overlay?.addEventListener("click", event => { if (event.target === overlay) closeVoiceMode(); });
         document.addEventListener("keydown", event => {
-            if (!voiceMode) return;
+            if (!voiceMode) {
+                if (previewing && event.key === "Escape") cancelSpeech();
+                return;
+            }
             if (event.key === "Escape") closeVoiceMode();
             if (event.key === "Tab") {
                 const controls = Array.from(overlay.querySelectorAll("button:not(:disabled), select:not(:disabled), input:not(:disabled)"));

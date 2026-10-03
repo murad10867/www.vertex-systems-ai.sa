@@ -198,6 +198,21 @@
                             <div class="setting-row"><div><strong>حجم الخط</strong><p>حجم نص المحادثات.</p></div><select id="fontSizeSelect"><option value="small">صغير</option><option value="medium" selected>متوسط</option><option value="large">كبير</option></select></div>
                             <div class="setting-row"><div><strong>تأثيرات الحركة</strong><p>تشغيل أو إيقاف بعض الحركات.</p></div><label class="toggle"><input id="animationsToggle" type="checkbox" checked><span></span></label></div>
                         </section>
+                        <section id="vertexVoiceSettingsCard" class="settings-card vertex-voice-settings-card" aria-labelledby="vertexVoiceSettingsTitle">
+                            <div class="settings-card-title"><span>🔊</span><div><h2 id="vertexVoiceSettingsTitle">إعدادات الصوت</h2><p>اختيار الصوت واللغة والسرعة والنبرة. تُحفظ التغييرات تلقائيًا.</p></div></div>
+                <div class="vertex-voice-settings">
+                    <p id="vertexVoiceQuality" class="vertex-voice-quality" aria-live="polite"></p>
+                    <div class="vertex-voice-fields">
+                        <label>لغة اختيار الصوت<select id="vertexVoiceLanguage"><option value="ar">العربية</option><option value="en">English</option></select></label>
+                        <label>النبرة · Plus<select id="vertexVoiceStyle"><option value="natural">طبيعي</option><option value="calm">هادئ</option><option value="bright">حيوي</option></select></label>
+                    </div>
+                    <label>اختر الصوت<select id="vertexVoiceChoice"></select></label>
+                    <label>سرعة القراءة · Pro / Plus <output id="vertexVoiceSpeedLabel">1.00×</output><input id="vertexVoiceSpeed" type="range" min="0.8" max="1.2" step="0.05" value="1"></label>
+                    <button id="vertexVoicePreview" class="vertex-voice-preview" type="button">▶ جرّب الصوت</button>
+                    <p id="vertexVoicePreviewStatus" class="vertex-voice-preview-status" role="status" aria-live="polite"></p>
+                </div>
+                            <p class="vertex-voice-hint">الأصوات وجودتها تعتمد على جهازك ومتصفحك. نحفظ اختيارًا مستقلًا للعربية والإنجليزية ويُستخدم الصوت المناسب للغة الرد. لا يلزم تشغيل الميكروفون لتجربة الصوت.</p>
+                        </section>
                         <section class="settings-card danger-settings">
                             <div class="settings-card-title"><span>💾</span><div><h2>البيانات</h2><p>إدارة بيانات Vertex AI المحلية.</p></div></div>
                             <div class="data-actions">
@@ -246,7 +261,7 @@
     <script src="plan-access.js?v=20260912-1"></script>
     <script src="ai.js"></script>
     <script src="ai-vision.js?v=20260912-3"></script>
-    <script src="ai-voice-v2.js?v=20261001-voices4-fix"></script>
+    <script src="ai-voice-v2.js?v=20261003-voice-settings"></script>
     <script src="vertex-userbar.js"></script>
     <script src="ai-rich.js"></script>
     <script src="ai-image.js"></script>
