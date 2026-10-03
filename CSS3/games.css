@@ -1655,6 +1655,10 @@ main {
 
 
 .open-game-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+
     background:
         linear-gradient(
             90deg,
@@ -2652,3 +2656,4 @@ main {
     letter-spacing:.8px;
     text-shadow:0 3px 14px #000;
 }
+

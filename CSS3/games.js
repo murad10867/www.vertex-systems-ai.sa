@@ -148,15 +148,15 @@ function saveLastProject(
     };
 
 
-    localStorage.setItem(
-
-        "vertexGamesLastProject",
-
-        JSON.stringify(
-            project
-        )
-
-    );
+    // Recording recent games is optional; it must never block navigation.
+    try {
+        localStorage.setItem(
+            "vertexGamesLastProject",
+            JSON.stringify(project)
+        );
+    } catch (error) {
+        // Storage may be unavailable in private or restricted browsing.
+    }
 
 
     loadLastProject();
@@ -170,10 +170,16 @@ function saveLastProject(
 
 function loadLastProject() {
 
-    const saved =
-        localStorage.getItem(
-            "vertexGamesLastProject"
-        );
+    if (!lastOpenedProject || !continueBtn) {
+        return;
+    }
+
+    let saved = null;
+    try {
+        saved = localStorage.getItem("vertexGamesLastProject");
+    } catch (error) {
+        // Continue without saved history when storage is unavailable.
+    }
 
 
     if (
@@ -224,9 +230,11 @@ function loadLastProject() {
         error
     ) {
 
-        localStorage.removeItem(
-            "vertexGamesLastProject"
-        );
+        try {
+            localStorage.removeItem("vertexGamesLastProject");
+        } catch (storageError) {
+            // An invalid history entry must not disable the rest of the page.
+        }
 
 
         lastProjectPage =
@@ -245,7 +253,7 @@ function loadLastProject() {
 // زر Minecraft في Hero
 // ==========================================
 
-openMinecraftBtn.addEventListener(
+openMinecraftBtn?.addEventListener(
 
     "click",
 
@@ -270,7 +278,7 @@ openMinecraftBtn.addEventListener(
 // زر لوحة Minecraft
 // ==========================================
 
-minecraftDashboardBtn.addEventListener(
+minecraftDashboardBtn?.addEventListener(
 
     "click",
 
@@ -295,7 +303,7 @@ minecraftDashboardBtn.addEventListener(
 // معلومات Minecraft
 // ==========================================
 
-minecraftInfoBtn.addEventListener(
+minecraftInfoBtn?.addEventListener(
 
     "click",
 
@@ -305,7 +313,7 @@ minecraftInfoBtn.addEventListener(
             .getElementById(
                 "minecraftInfoSection"
             )
-            .scrollIntoView({
+            ?.scrollIntoView({
 
                 behavior:
                     "smooth"
@@ -321,7 +329,7 @@ minecraftInfoBtn.addEventListener(
 // عرض الألعاب
 // ==========================================
 
-browseGamesBtn.addEventListener(
+browseGamesBtn?.addEventListener(
 
     "click",
 
@@ -331,7 +339,7 @@ browseGamesBtn.addEventListener(
             .getElementById(
                 "gamesSection"
             )
-            .scrollIntoView({
+            ?.scrollIntoView({
 
                 behavior:
                     "smooth"
@@ -384,9 +392,11 @@ openGameButtons.forEach(
                 );
 
 
-                openPage(
-                    page
-                );
+                // Anchors use their native href, including Ctrl-click and
+                // opening in a new tab. Keep support for older button markup.
+                if (button.tagName !== "A") {
+                    openPage(page);
+                }
 
             }
 
@@ -401,7 +411,7 @@ openGameButtons.forEach(
 // متابعة آخر مشروع
 // ==========================================
 
-continueBtn.addEventListener(
+continueBtn?.addEventListener(
 
     "click",
 
@@ -524,7 +534,7 @@ function filterGames() {
 // البحث
 // ==========================================
 
-gameSearch.addEventListener(
+gameSearch?.addEventListener(
 
     "input",
 
@@ -635,16 +645,19 @@ function updateStats() {
     );
 
 
-    projectsCount.textContent =
-        total;
+    if (projectsCount) {
+        projectsCount.textContent = total;
+    }
 
 
-    developmentCount.textContent =
-        development;
+    if (developmentCount) {
+        developmentCount.textContent = development;
+    }
 
 
-    plannedCount.textContent =
-        planned;
+    if (plannedCount) {
+        plannedCount.textContent = planned;
+    }
 
 }
 
@@ -698,7 +711,7 @@ document.addEventListener(
 // العودة للمشاريع
 // ==========================================
 
-backBtn.addEventListener(
+backBtn?.addEventListener(
 
     "click",
 
