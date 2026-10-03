@@ -983,25 +983,6 @@ document
 
 document
     .getElementById(
-        "projectsPageBtn"
-    )
-    .addEventListener(
-
-        "click",
-
-        function () {
-
-            openPage(
-                "projects.html"
-            );
-
-        }
-
-    );
-
-
-document
-    .getElementById(
         "projectsPageSideBtn"
     )
     .addEventListener(
