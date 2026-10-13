@@ -359,21 +359,6 @@
                 return;
             }
 
-            const projectsButton = event.target?.closest?.("#projectsBtn");
-            if (projectsButton && projectsButton.dataset.vertexPlanBypass !== "1") {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-
-                await ready().catch(function () {});
-                if (!staticFeatureAllowed("project_mode")) {
-                    showPlanMessage({ code: "upgrade_required", feature: "project_mode", plan: entitlements?.plan || "free" });
-                    return;
-                }
-
-                projectsButton.dataset.vertexPlanBypass = "1";
-                projectsButton.click();
-                delete projectsButton.dataset.vertexPlanBypass;
-            }
         }, true);
 
         document.addEventListener("change", function (event) {
