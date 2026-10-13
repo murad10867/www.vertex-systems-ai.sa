@@ -1613,7 +1613,7 @@ downloadBtn.addEventListener(
 
 
 // ==========================================
-// العودة للمشاريع
+// العودة للوحة التحكم
 // ==========================================
 
 backBtn.addEventListener(
@@ -1623,7 +1623,7 @@ backBtn.addEventListener(
     function () {
 
         window.location.href =
-            "projects.html";
+            "dashboard.html";
 
     }
 

@@ -180,7 +180,7 @@ backBtn.addEventListener(
     function () {
 
         window.location.href =
-            "projects.html";
+            "dashboard.html";
 
     }
 );

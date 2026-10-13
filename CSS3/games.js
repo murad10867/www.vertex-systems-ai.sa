@@ -708,7 +708,7 @@ document.addEventListener(
 
 
 // ==========================================
-// العودة للمشاريع
+// العودة للوحة التحكم
 // ==========================================
 
 backBtn?.addEventListener(
@@ -718,7 +718,7 @@ backBtn?.addEventListener(
     function () {
 
         openPage(
-            "projects.html"
+            "dashboard.html"
         );
 
     }
