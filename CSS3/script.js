@@ -530,9 +530,7 @@ servicesBtn.addEventListener(
 
     function () {
 
-        scrollToSection(
-            "services"
-        );
+        window.location.href = "api-demo.html";
 
     }
 

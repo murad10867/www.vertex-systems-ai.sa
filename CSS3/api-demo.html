@@ -5,19 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#07101c">
-  <title>Vertex AI</title>
+  <title>تجربة Vertex AI بدون تسجيل دخول</title>
   <link rel="icon" type="image/png" href="img/logo3.png">
-  <link rel="stylesheet" href="api-demo.css?v=6">
-  <script src="auth.js"></script>
+  <link rel="stylesheet" href="api-demo.css?v=20261013-guest-trial">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="top-actions">
-        <div class="online-pill" dir="ltr"><span></span>API Online</div>
+        <div id="trialStatus" class="trial-status" role="status" aria-live="polite">جارٍ تجهيز تجربتك...</div>
       </div>
 
-      <a class="brand" href="ai.html" aria-label="Vertex AI" dir="ltr">
+      <a class="brand" href="index.html" aria-label="الرئيسية — Vertex AI" dir="ltr">
         <div class="brand-copy">
           <strong>Vertex AI</strong>
           <span>Powered by Vertex Systems AI</span>
@@ -35,7 +34,7 @@
 
         <div class="welcome-label" dir="ltr">VERTEX INTELLIGENCE</div>
         <h1>وش تبغى تسأل <span dir="ltr">Vertex AI</span>؟</h1>
-        <p>اكتب سؤالك مباشرة، بدون ربط مفتاح أو إعدادات إضافية.</p>
+        <p>جرب الذكاء الاصطناعي بدون تسجيل دخول لمدة شهر.<br>30 يومًا من أول زيارة لهذا المتصفح، حتى 30 رسالة يوميًا.</p>
 
         <div class="suggestions">
           <button type="button" data-prompt="اكتب لي فكرة مشروع تقني جديدة"><span>💡</span> فكرة مشروع</button>
@@ -49,14 +48,16 @@
 
     <div class="composer-area">
       <div class="composer">
-        <textarea id="promptInput" rows="1" placeholder="اكتب رسالتك إلى Vertex AI..." maxlength="12000"></textarea>
-        <button id="sendBtn" class="send-btn" type="button" aria-label="إرسال">↑</button>
+        <textarea id="promptInput" rows="1" placeholder="اكتب رسالتك إلى Vertex AI..." maxlength="5000" disabled></textarea>
+        <button id="sendBtn" class="send-btn" type="button" aria-label="إرسال" disabled>↑</button>
       </div>
       <div class="composer-note">Enter للإرسال • Shift + Enter لسطر جديد</div>
+      <p id="trialNotice" class="trial-notice" role="status" aria-live="polite"></p>
+      <a id="trialLogin" class="trial-login hidden" href="login.html">سجّل الدخول للاستمرار</a>
     </div>
   </div>
 
-  <script src="api-demo.js?v=6"></script>
+  <script src="api-demo.js?v=20261013-guest-trial"></script>
     <script src="site-analytics.js?v=20260905-3"></script>
 </body>
 </html>

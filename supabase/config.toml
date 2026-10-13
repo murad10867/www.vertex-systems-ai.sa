@@ -1,0 +1,6 @@
+project_id = "vertex-systems-ai"
+
+[functions.vertex-ai-demo]
+# Visitors explicitly use this public demo without a user login.
+# Its handler validates trial tokens, expiration, and request quotas.
+verify_jwt = false

@@ -58,6 +58,10 @@ button{appearance:none;-webkit-appearance:none}
 .send-btn{width:44px!important;height:44px!important;border:0!important;border-radius:14px!important;background:linear-gradient(145deg,#1585ff,#27a8ff)!important;color:white!important;font-size:24px!important;cursor:pointer!important;box-shadow:0 10px 24px rgba(23,139,255,.22)!important}
 .send-btn:disabled{opacity:.45;cursor:not-allowed}
 .composer-note{text-align:center;margin-top:7px;color:#4f6075;font-size:9px}
+.trial-status{color:#9bc9ff;font-size:12px;line-height:1.6;direction:rtl;text-align:right}
+.trial-notice{text-align:center;margin:8px auto 0;max-width:860px;color:#b5c8df;font-size:12px;line-height:1.6}
+.trial-notice:empty{display:none}
+.trial-login{display:block;width:max-content;max-width:100%;margin:8px auto 0;color:#77bcff;font-size:13px}
 
 .modal{position:fixed;inset:0;display:grid;place-items:center;padding:20px;z-index:100}
 .modal-backdrop{position:absolute;inset:0;border:0;background:rgba(0,0,0,.74);backdrop-filter:blur(8px)}
