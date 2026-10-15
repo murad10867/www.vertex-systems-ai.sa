@@ -12,10 +12,12 @@
   const clean=value=>String(value||"").replace(/\*\*|__/g,"").trim();
 
   function isVideoRequest(value){
-    const text=String(value||"").replace(/[\u064b-\u065f\u0670]/g,"");
-    return /(?:^|\s)(?:سوي|سو|ابي|أبي|ابغى|أبغى|اريد|أريد|انشئ|أنشئ|اصنع|انتج|أنتج|ولد|جهز|صمم|اعمل|اعطني|أعطني)[\s\S]{0,60}(?:فيديو|فديو|mp4)/i.test(text)
+    const text=String(value||"").replace(/[\u064b-\u065f\u0670]/g,"").trim();
+    if(/^(?:كيف|وش|ايش|ما|ماذا|how|what|why)(?:\s|$)/i.test(text))return false;
+    return /(?:^|\s)(?:سوي|سو|انشئ|أنشئ|اصنع|انتج|أنتج|ولد|جهز|صمم|اعمل)[\s\S]{0,60}(?:فيديو|فديو|شورت|ريلز|mp4)/i.test(text)
+      || /^(?:ابي|أبي|ابغى|أبغى|ابغا|أبغا|اريد|أريد|نبغى|نبي|عطني|اعطني|أعطني)\s+(?:لي\s+)?(?:فيديو|فديو|شورت|ريلز|mp4)(?:\s|$)/i.test(text)
       || /\b(?:create|make|generate|produce|render)\b[\s\S]{0,60}\b(?:video|mp4)\b/i.test(text)
-      || /^(?:فيديو|فديو|video|mp4)(?:\s|$)/i.test(text.trim());
+      || /^(?:فيديو|فديو|شورت|ريلز|video|mp4)(?:\s|$)/i.test(text);
   }
 
   function scenesFrom(text){
