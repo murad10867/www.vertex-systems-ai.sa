@@ -72,6 +72,7 @@
     avatar.className="avatar";
     avatar.textContent=role==="assistant"?"V":"أنت";
     const content=document.createElement("div");
+    content.className="message-content";
     const bubble=document.createElement("div");
     bubble.className="bubble";
     bubble.textContent=text;
