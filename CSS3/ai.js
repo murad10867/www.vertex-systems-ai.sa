@@ -1267,6 +1267,7 @@ function appendMessageToDOM(
     }
 
 
+    if (!isUser) window.VertexLearning?.attach(element, { answer: () => message.content });
     messagesContainer.appendChild(
         element
     );
@@ -1721,6 +1722,7 @@ function createAssistantStreamingElement(
         );
 
 
+    window.VertexLearning?.attach(element, { answer: () => message.content });
     return element;
 
 }
@@ -1908,9 +1910,10 @@ async function generateAIReply(userText) {
     const messages = conversation ? conversation.messages.map(function (message) {
         return { role: message.role, content: message.content };
     }) : [{ role: "user", content: userText }];
-    const memoryPayload = settings.memoryEnabled ? memories.slice(0, 20).map(function (memory) {
+    const corrections = settings.memoryEnabled ? (window.VertexLearning?.context(userText, messages.filter(m => m.role === "user").slice(-2).map(m => m.content)) || []) : [];
+    const memoryPayload = settings.memoryEnabled ? corrections.concat(memories.slice(0, 20).map(function (memory) {
         return { content: memory.content };
-    }) : [];
+    })).slice(0, 20) : [];
     const { data, error } = await client.functions.invoke("vertex-ai", {
         body: { messages: messages, memories: memoryPayload, assistantName: settings.assistantName }
     });
@@ -3109,6 +3112,9 @@ function exportAIData() {
         memories:
             memories,
 
+        corrections:
+            window.VertexLearning?.exportData() || [],
+
         settings:
             settings
 
@@ -3234,6 +3240,9 @@ function requestClearMemories() {
             memories =
                 [];
 
+            if (window.VertexLearning && !window.VertexLearning.clear()) {
+                settingsStatus.textContent = "تعذر حذف التصحيحات من تخزين المتصفح.";
+            }
 
             saveMemories();
 

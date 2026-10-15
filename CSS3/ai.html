@@ -73,6 +73,7 @@
     <script src="auth.js"></script>
 
     <link rel="stylesheet" href="ai-video.css?v=20261015-1">
+  <link rel="stylesheet" href="ai-learning.css?v=20261015-1">
 </head>
 
 <body>
@@ -214,6 +215,14 @@
                 </div>
                             <p class="vertex-voice-hint">الأصوات وجودتها تعتمد على جهازك ومتصفحك. نحفظ اختيارًا مستقلًا للعربية والإنجليزية ويُستخدم الصوت المناسب للغة الرد. لا يلزم تشغيل الميكروفون لتجربة الصوت.</p>
                         </section>
+                        <section class="settings-card vertex-learning-card">
+                            <div class="settings-card-title"><span>🧠</span><div><h2>التعلّم من التصحيحات</h2><p>صحّح رد المساعد ليستفيد من التصحيح في الأسئلة المرتبطة به.</p></div></div>
+                            <label><input id="vertexLearningEnabled" type="checkbox" checked>استخدام التصحيحات المحفوظة</label>
+                            <p id="vertexLearningCount" aria-live="polite">0 / 50 تصحيحًا محفوظًا</p>
+                            <button id="vertexLearningOpen" class="vertex-learning-open" type="button">عرض وحذف التصحيحات</button>
+                            <p>تُحفظ محليًا في هذا المتصفح، وتُفصل حسب الحساب. يلزم تفعيل ذاكرة المساعد لاستخدامها في الردود.</p>
+                            <p id="vertexLearningSettingsStatus" role="status" aria-live="polite"></p>
+                        </section>
                         <section class="settings-card danger-settings">
                             <div class="settings-card-title"><span>💾</span><div><h2>البيانات</h2><p>إدارة بيانات Vertex AI المحلية.</p></div></div>
                             <div class="data-actions">
@@ -260,8 +269,9 @@
     </div>
 
     <script src="plan-access.js?v=20261013-dashboard-link"></script>
-    <script src="ai-video.js?v=20261015-2"></script>
-    <script src="ai.js?v=20261015-video"></script>
+    <script src="ai-learning.js?v=20261015-1"></script>
+    <script src="ai-video.js?v=20261015-learning"></script>
+    <script src="ai.js?v=20261015-learning"></script>
     <script src="ai-vision.js?v=20260912-3"></script>
     <script src="ai-voice-v2.js?v=20261003-voice-settings"></script>
     <script src="vertex-userbar.js"></script>

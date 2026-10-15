@@ -279,7 +279,7 @@
     const guest=document.querySelector(".composer-area .composer");
     if(!tools&&!guest)return;
     const button=document.createElement("button");button.type="button";button.id="vertexVideoLaunch";button.className="vertex-video-launch";button.textContent="🎬 إنشاء فيديو";button.addEventListener("click",()=>open((el("messageInput")||el("promptInput"))?.value||""));
-    if(tools)tools.appendChild(button);else{const toolbar=document.createElement("div");toolbar.className="vertex-video-toolbar";toolbar.appendChild(button);guest.parentNode.insertBefore(toolbar,guest);}
+    if(tools)tools.appendChild(button);else{let toolbar=document.querySelector(".vertex-video-toolbar");if(!toolbar){toolbar=document.createElement("div");toolbar.className="vertex-video-toolbar";guest.parentNode.insertBefore(toolbar,guest);}toolbar.appendChild(button);}
   }
   window.VertexVideo={isVideoRequest,handlePrompt(text){if(!isVideoRequest(text))return false;open(text);prepareScenes();return true;},open,setPlanner(callback){planner=callback;}};
   window.addEventListener("beforeunload",()=>{cancel();if(resultUrl)URL.revokeObjectURL(resultUrl);});

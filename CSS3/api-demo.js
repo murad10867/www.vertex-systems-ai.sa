@@ -84,6 +84,7 @@
     }
     if(role==="assistant")wrap.append(avatar,content);else wrap.append(content,avatar);
     $("messages").appendChild(wrap);
+    if(role==="assistant")window.VertexLearning?.attach(wrap,{answer:text});
     requestAnimationFrame(()=>wrap.scrollIntoView({behavior:"smooth",block:"end"}));
     return wrap;
   }
@@ -127,7 +128,8 @@
     const typing=typingMessage();
     try{
       const userMessage={role:"user",content:prompt};
-      const data=await request({action:"chat",trialToken:trial.trialToken,messages:recentMessages(userMessage)});
+      const modelMessage={role:"user",content:window.VertexLearning?.augment(prompt,history.filter(m=>m.role==="user").slice(-2).map(m=>m.content))||prompt};
+      const data=await request({action:"chat",trialToken:trial.trialToken,messages:recentMessages(modelMessage)});
       if(typeof data.reply!=="string"||!data.reply.trim())throw new Error("empty_ai_reply");
       const reply=data.reply.trim();
       history.push(userMessage,{role:"assistant",content:reply.slice(0,8000)});
