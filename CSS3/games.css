@@ -2657,3 +2657,17 @@ main {
     text-shadow:0 3px 14px #000;
 }
 
+
+/* Dar Al Fursan: keep the complete supplied cover visible. */
+.dar-al-fursan-cover {
+    display: grid;
+    place-items: center;
+    background: #18201a;
+}
+
+.dar-al-fursan-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
