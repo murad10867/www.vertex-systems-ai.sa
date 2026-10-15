@@ -463,6 +463,7 @@
         if (!input) return;
 
         const text = input.value.trim();
+        if (window.VertexVideo?.isVideoRequest(text)) return;
         if (!text || (!imageCreateMode && !isImageRequest(text))) return;
 
         event.preventDefault();

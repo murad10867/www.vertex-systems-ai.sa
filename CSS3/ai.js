@@ -1429,6 +1429,8 @@ async function sendCurrentMessage() {
     }
 
 
+    if (window.VertexVideo?.handlePrompt(text)) return;
+
     messageInput.value =
         "";
 

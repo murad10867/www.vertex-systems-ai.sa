@@ -117,6 +117,7 @@
     const box=$("promptInput");
     const prompt=box.value.trim();
     if(!prompt)return;
+    if(window.VertexVideo?.handlePrompt(prompt))return;
     busy=true;
     $("sendBtn").disabled=true;
     $("trialNotice").textContent="";
@@ -149,6 +150,12 @@
   }
 
   async function init(){
+    window.VertexVideo?.setPlanner(async function(description,instruction){
+      if(!trial?.trialToken||!updateTrial())throw new Error("trial_expired");
+      const data=await request({action:"chat",trialToken:trial.trialToken,messages:[{role:"user",content:instruction}]});
+      if(!data.reply)throw new Error("empty_ai_reply");
+      return data.reply;
+    });
     $("sendBtn").addEventListener("click",sendPrompt);
     $("promptInput").addEventListener("input",autoGrow);
     $("promptInput").addEventListener("keydown",e=>{
