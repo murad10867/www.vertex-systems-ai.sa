@@ -2,27 +2,9 @@
 // عناصر الصفحة
 // ==========================================
 
-const openMinecraftBtn =
-    document.getElementById(
-        "openMinecraftBtn"
-    );
-
-
 const browseGamesBtn =
     document.getElementById(
         "browseGamesBtn"
-    );
-
-
-const minecraftDashboardBtn =
-    document.getElementById(
-        "minecraftDashboardBtn"
-    );
-
-
-const minecraftInfoBtn =
-    document.getElementById(
-        "minecraftInfoBtn"
     );
 
 
@@ -247,82 +229,6 @@ function loadLastProject() {
     }
 
 }
-
-
-// ==========================================
-// زر Minecraft في Hero
-// ==========================================
-
-openMinecraftBtn?.addEventListener(
-
-    "click",
-
-    function () {
-
-        saveLastProject(
-            "Minecraft Rell X1000",
-            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
-        );
-
-
-        openPage(
-            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
-        );
-
-    }
-
-);
-
-
-// ==========================================
-// زر لوحة Minecraft
-// ==========================================
-
-minecraftDashboardBtn?.addEventListener(
-
-    "click",
-
-    function () {
-
-        saveLastProject(
-            "Minecraft Rell X1000",
-            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
-        );
-
-
-        openPage(
-            "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
-        );
-
-    }
-
-);
-
-
-// ==========================================
-// معلومات Minecraft
-// ==========================================
-
-minecraftInfoBtn?.addEventListener(
-
-    "click",
-
-    function () {
-
-        document
-            .getElementById(
-                "minecraftInfoSection"
-            )
-            ?.scrollIntoView({
-
-                behavior:
-                    "smooth"
-
-            });
-
-    }
-
-);
 
 
 // ==========================================
@@ -660,51 +566,6 @@ function updateStats() {
     }
 
 }
-
-
-// ==========================================
-// اختصار بالكيبورد
-// M يفتح Minecraft
-// ==========================================
-
-document.addEventListener(
-
-    "keydown",
-
-    function (
-        event
-    ) {
-
-        if (
-            document.activeElement ===
-            gameSearch
-        ) {
-
-            return;
-
-        }
-
-
-        if (
-            event.key.toLowerCase() ===
-            "m"
-        ) {
-
-            saveLastProject(
-                "Minecraft Rell X1000",
-                "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
-            );
-
-
-            openPage(
-                "https://murad10867.github.io/vertex-games/minecraft-rell-x1000/"
-            );
-
-        }
-
-    }
-
-);
 
 
 // ==========================================
