@@ -1,12 +1,12 @@
 User-agent: *
-Allow: /www.vertex-systems-ai.com/
+Allow: /www.vertex-systems-ai.sa/
 
-Disallow: /www.vertex-systems-ai.com/login.html
-Disallow: /www.vertex-systems-ai.com/signup.html
-Disallow: /www.vertex-systems-ai.com/dashboard.html
-Disallow: /www.vertex-systems-ai.com/projects.html
-Disallow: /www.vertex-systems-ai.com/ai.html
-Disallow: /www.vertex-systems-ai.com/api-key.html
-Disallow: /www.vertex-systems-ai.com/api-demo.html
+Disallow: /www.vertex-systems-ai.sa/login.html
+Disallow: /www.vertex-systems-ai.sa/signup.html
+Disallow: /www.vertex-systems-ai.sa/dashboard.html
+Disallow: /www.vertex-systems-ai.sa/projects.html
+Disallow: /www.vertex-systems-ai.sa/ai.html
+Disallow: /www.vertex-systems-ai.sa/api-key.html
+Disallow: /www.vertex-systems-ai.sa/api-demo.html
 
-Sitemap: https://murad10867.github.io/www.vertex-systems-ai.com/sitemap.xml
+Sitemap: https://murad10867.github.io/www.vertex-systems-ai.sa/sitemap.xml

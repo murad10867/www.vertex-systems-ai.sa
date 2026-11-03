@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.com/</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.com/arabic-ai.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.com/arabic-ai-chat.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.com/voice-ai.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.com/ai-image-generator.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.com/ai-programming-assistant.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.sa/</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.sa/arabic-ai.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.sa/arabic-ai-chat.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.sa/voice-ai.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.sa/ai-image-generator.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://murad10867.github.io/www.vertex-systems-ai.sa/ai-programming-assistant.html</loc><lastmod>2026-09-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url>
+    <loc>https://murad10867.github.io/www.vertex-systems-ai.sa/vertex-car-yey1.html</loc>
+    <lastmod>2026-11-03</lastmod>
+    <image:image>
+      <image:loc>https://murad10867.github.io/www.vertex-systems-ai.sa/img/vertex-car-yey1-electric-sedan.png</image:loc>
+    </image:image>
+  </url>
 </urlset>
